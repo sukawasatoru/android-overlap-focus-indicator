@@ -110,7 +110,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
-gms = "com.google.gms.google-services:4.4.2"
+gms = "com.google.gms.google-services:4.4.3"
 ksp = "com.google.devtools.ksp:2.0.0-1.0.22"
 protobuf = "com.google.protobuf:0.9.4"
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
