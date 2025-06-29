@@ -18,16 +18,17 @@ package com.example.focusindicator
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.focusindicator.databinding.ListItemCardBinding
 
 open class CardListAdapter : ListAdapter<CardItem, CardListAdapter.ViewHolder>(ItemCallback) {
+    var tag = "CardListAdapter"
     var onItemClick: ((CardItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,7 +37,7 @@ open class CardListAdapter : ListAdapter<CardItem, CardListAdapter.ViewHolder>(I
             parent,
             false,
         )
-        return ViewHolder(binding, binding.image)
+        return ViewHolder(binding.root, binding.image)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -45,7 +46,7 @@ open class CardListAdapter : ListAdapter<CardItem, CardListAdapter.ViewHolder>(I
         holder.itemView.setOnClickListener { onItemClick?.invoke(item) }
         holder.itemView.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                Log.i("CardListAdapter", "focus: ${ViewDisplay(holder.itemView)}")
+                Log.i(tag, "focus: ${ViewDisplay(holder.itemView)}")
             }
         }
         holder.itemView.setTag(
@@ -53,22 +54,22 @@ open class CardListAdapter : ListAdapter<CardItem, CardListAdapter.ViewHolder>(I
             "{pos: $position, id: ${item.id}, uri: ${item.uri}}",
         )
 
-        Glide.with(holder.binding.root)
+        Glide.with(holder.itemView)
             .load(item.uri)
             .into(holder.image)
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
-        Glide.with(holder.binding.root).clear(holder.image)
+        Glide.with(holder.itemView).clear(holder.image)
     }
 
     class ViewHolder(
-        val binding: ViewBinding,
+        view: View,
         val image: ImageView,
-    ) : RecyclerView.ViewHolder(binding.root)
+    ) : RecyclerView.ViewHolder(view)
 }
 
-object ItemCallback : DiffUtil.ItemCallback<CardItem>() {
+private object ItemCallback : DiffUtil.ItemCallback<CardItem>() {
     override fun areItemsTheSame(oldItem: CardItem, newItem: CardItem): Boolean {
         return oldItem.id == newItem.id
     }
