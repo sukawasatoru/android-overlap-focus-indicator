@@ -1,0 +1,141 @@
+/*
+ * Copyright 2017, 2018, 2020, 2021, 2022, 2023, 2024, 2025 sukawasatoru
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+    alias libs.plugins.android.application apply false
+    alias libs.plugins.hilt apply false
+    alias libs.plugins.kotlin.android apply false
+    alias libs.plugins.ksp apply false
+}
+
+def setupAndroidPlugin = { Project project ->
+    project.repositories {
+        google()
+        mavenCentral()
+    }
+
+    project.android {
+        compileSdk 36
+        buildToolsVersion = '36.0.0'
+
+        defaultConfig {
+            minSdk 24
+            targetSdk 36
+        }
+
+        compileOptions {
+            coreLibraryDesugaringEnabled true
+        }
+
+        lint {
+            checkAllWarnings true
+            checkDependencies true
+            enable += 'WrongThreadInterprocedural'
+            disable += 'NewerVersionAvailable'
+            fatal += 'VisibleForTests'
+        }
+
+        signingConfigs {
+            config {
+                enableV3Signing true
+                enableV4Signing true
+            }
+        }
+    }
+
+    project.dependencies {
+        coreLibraryDesugaring libs.android.desugarJdkLibs
+    }
+}
+
+def setupKotlinAndroidPlugin = { Project project ->
+    project.kotlin {
+        jvmToolchain 17
+    }
+
+    project.android {
+        kotlinOptions {
+            freeCompilerArgs += '-opt-in=kotlin.RequiresOptIn'
+        }
+    }
+}
+
+def setupProtobufPlugin = { Project project ->
+    project.dependencies {
+        implementation libs.protobuf.lite
+    }
+
+    project.protobuf {
+        protoc {
+            artifact = libs.protobuf.protoc.get()
+        }
+
+        generateProtoTasks {
+            all().each { task ->
+                task.builtins {
+                    java {
+                        option 'lite'
+                    }
+                }
+            }
+        }
+    }
+}
+
+def setupHiltPlugin = { Project project ->
+    project.hilt {
+        enableAggregatingTask true
+    }
+
+    project.dependencies {
+        implementation libs.dagger.hilt.core
+        ksp libs.dagger.hilt.compiler
+
+        androidTestImplementation libs.dagger.hilt.test
+        kspAndroidTest libs.dagger.hilt.compiler
+    }
+}
+
+subprojects {
+    plugins.whenPluginAdded {
+        switch (it.class.name) {
+            case 'com.android.build.gradle.AppPlugin':
+                // fallthrough.
+            case 'com.android.build.gradle.LibraryPlugin':
+                // fallthrough.
+            case 'com.android.build.gradle.TestPlugin':
+                setupAndroidPlugin(project)
+                break
+            case 'org.jetbrains.kotlin.gradle.plugin.KotlinAndroidPluginWrapper':
+                setupKotlinAndroidPlugin(project)
+                break
+            case 'com.google.protobuf.gradle.ProtobufPlugin':
+                setupProtobufPlugin(project)
+                break
+            case 'dagger.hilt.android.plugin.HiltGradlePlugin':
+                setupHiltPlugin(project)
+                break
+            default:
+                break
+        }
+    }
+}
+
+tasks.register('clean', Delete) {
+    group 'build'
+
+    delete rootProject.layout.buildDirectory
+}
