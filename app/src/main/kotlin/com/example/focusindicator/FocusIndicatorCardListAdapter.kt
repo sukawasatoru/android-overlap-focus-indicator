@@ -31,6 +31,6 @@ class FocusIndicatorCardListAdapter : CardListAdapter() {
             parent,
             false,
         )
-        return ViewHolder(binding.root, binding.cardContainer.image)
+        return ViewHolder(binding.root, binding.image)
     }
 }

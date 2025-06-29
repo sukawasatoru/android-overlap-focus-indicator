@@ -16,11 +16,27 @@
   ~ limitations under the License.
   -->
 
+<!--
+  ~ https://developer.android.com/design/ui/tv/guides/components/cards
+  -->
 <com.example.focusindicator.FocusIndicatorCard xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_container"
     android:layout_width="196dp"
     android:layout_height="110.298dp"
     android:descendantFocusability="blocksDescendants"
     android:screenReaderFocusable="true"
-    tools:targetApi="28" />
+    tools:targetApi="28">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:duplicateParentState="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
+</com.example.focusindicator.FocusIndicatorCard>

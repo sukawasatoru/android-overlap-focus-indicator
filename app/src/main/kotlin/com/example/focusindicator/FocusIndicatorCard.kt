@@ -20,12 +20,9 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
-import com.example.focusindicator.databinding.FocusIndicatorCardBinding
 
 class FocusIndicatorCard @JvmOverloads constructor(
     context: Context,
@@ -33,12 +30,6 @@ class FocusIndicatorCard @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.focusIndicatorCardStyle,
     defStyleRes: Int = R.style.Widget_FocusIndicatorCard,
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private val binding = FocusIndicatorCardBinding.inflate(
-        LayoutInflater.from(context),
-        this,
-    )
-    val image: ImageView = binding.image
-
     private val indicatorWidth = resources.getDimension(R.dimen.card_indicator_width)
     private var indicatorGap: Float = 0f
 
