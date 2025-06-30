@@ -56,8 +56,22 @@
         android:clipChildren="false"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintTop_toBottomOf="@id/list"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/list3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/list_item_focus_indicator_card" />
+
+    <com.example.focusindicator.CarouselHorizontalGridViewContainerView
+        android:id="@+id/list3"
+        android:layout_width="0dp"
+        android:layout_height="110.298dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="64dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toBottomOf="@id/list2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

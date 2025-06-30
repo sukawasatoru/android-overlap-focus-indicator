@@ -20,7 +20,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.focusindicator.databinding.ListItemFocusIndicatorCardBinding
 
-class FocusIndicatorCardListAdapter : CardListAdapter() {
+open class FocusIndicatorCardListAdapter : CardListAdapter() {
     init {
         tag = "FocusIndicatorCardListAdapter"
     }

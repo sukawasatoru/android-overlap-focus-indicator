@@ -16,17 +16,20 @@
 
 package com.example.focusindicator
 
-import androidx.core.net.toUri
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
+import android.view.ViewGroup
 
-suspend fun requestItems(widthPx: Int = 392): List<CardItem> = withContext(Dispatchers.IO) {
-    (1..10).map { i ->
-        yield()
-        CardItem(
-            id = "item-$i",
-            "https://placehold.co/${widthPx}x221.png?text=${widthPx}%20x%20221\\n$i".toUri(),
-        )
+class FocusIndicatorCarouselCardAdapter : FocusIndicatorCardListAdapter() {
+    init {
+        tag = "FocusIndicatorCarouselCardAdapter"
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return super.onCreateViewHolder(parent, viewType).apply {
+            itemView.apply {
+                layoutParams = layoutParams.apply {
+                    width = parent.width - parent.paddingStart
+                }
+            }
+        }
     }
 }

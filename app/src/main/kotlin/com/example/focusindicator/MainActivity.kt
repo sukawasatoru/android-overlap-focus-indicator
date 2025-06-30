@@ -45,6 +45,12 @@ class MainActivity : ComponentActivity() {
         }
         lifecycleScope.launch { adapter2.submitList(requestItems()) }
         binding.list2.adapter = adapter2
+
+        val adapter3 = FocusIndicatorCarouselCardAdapter().apply {
+            onItemClick = ::onItemClick
+        }
+        lifecycleScope.launch { adapter3.submitList(requestItems(1792).take(3)) }
+        binding.list3.adapter = adapter3
     }
 
     private fun onItemClick(item: CardItem) {
