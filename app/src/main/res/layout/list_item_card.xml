@@ -26,9 +26,9 @@
     android:layout_width="196dp"
     android:layout_height="110.298dp"
     android:descendantFocusability="blocksDescendants"
-    android:screenReaderFocusable="true"
-    tools:context=".MainActivity"
-    tools:targetApi="28">
+    android:outlineProvider="bounds"
+    android:elevation="8dp"
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/image"
@@ -40,5 +40,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        tools:src="#ff00ff"
         tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

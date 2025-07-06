@@ -32,7 +32,7 @@ def setupAndroidPlugin = { Project project ->
         buildToolsVersion = '36.0.0'
 
         defaultConfig {
-            minSdk 24
+            minSdk 30
             targetSdk 36
         }
 
