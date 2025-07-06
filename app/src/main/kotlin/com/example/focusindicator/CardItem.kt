@@ -21,4 +21,11 @@ import android.net.Uri
 data class CardItem(
     val id: String,
     val uri: Uri,
-)
+    val type: Type,
+) {
+    enum class Type {
+        DefStyleRes,
+        DefStyleAttr,
+        LayoutXMLStyle,
+    }
+}

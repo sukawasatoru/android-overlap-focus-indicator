@@ -16,22 +16,40 @@
 
 package com.example.focusindicator
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Path
 import android.graphics.Rect
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
+import androidx.core.graphics.withSave
 
+@SuppressLint("UseCompatLoadingForDrawables")
 class FocusIndicatorCard @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.focusIndicatorCardStyle,
     defStyleRes: Int = R.style.Widget_FocusIndicatorCard,
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private val indicatorWidth = resources.getDimension(R.dimen.card_indicator_width)
-    private var indicatorGap: Float = 0f
+    private val indicator = resources.getDrawable(R.drawable.card_indicator, context.theme)!!
+
+    private var gap: Int = 0
+    private val indicatorWidth: Float = resources.getDimension(R.dimen.card_indicator_width)
+    var indicatorGap: Float = 0f
+        set(value) {
+            field = value
+            gap = (indicatorWidth + value).toInt()
+        }
+
+    private val path = Path()
+    var clipContentCornerRadius: Float = 0f
+        set(value) {
+            field = value
+            updatePath()
+            invalidate()
+        }
 
     init {
         // for onDraw for indicator.
@@ -48,26 +66,56 @@ class FocusIndicatorCard @JvmOverloads constructor(
                     R.styleable.FocusIndicatorCard_indicatorGap -> {
                         indicatorGap = getDimension(index, 0f)
                     }
+
+                    R.styleable.FocusIndicatorCard_clipContentCornerRadius -> {
+                        clipContentCornerRadius = getDimension(index, 0f)
+                    }
                 }
             }
-        }
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-        if (isFocused) {
-            val indicator = ContextCompat.getDrawable(context, R.drawable.card_indicator)!!
-            val gap = (indicatorGap + indicatorWidth).toInt()
-            indicator.setBounds(-gap, -gap, width + gap, height + gap)
-            indicator.draw(canvas)
         }
     }
 
     override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
 
-        // for indicator.
+        // update indicator.
         invalidate()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        updatePath()
+    }
+
+    override fun dispatchDraw(canvas: Canvas) {
+        if (clipChildren) {
+            canvas.withSave {
+                clipPath(path)
+                super.dispatchDraw(this)
+            }
+        } else {
+            super.dispatchDraw(canvas)
+        }
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        if (isFocused) {
+            indicator.setBounds(-gap, -gap, width + gap, height + gap)
+            indicator.draw(canvas)
+        }
+    }
+
+    private fun updatePath() {
+        path.reset()
+        path.addRoundRect(
+            0f,
+            0f,
+            width.toFloat(),
+            height.toFloat(),
+            clipContentCornerRadius,
+            clipContentCornerRadius,
+            Path.Direction.CW,
+        )
     }
 }

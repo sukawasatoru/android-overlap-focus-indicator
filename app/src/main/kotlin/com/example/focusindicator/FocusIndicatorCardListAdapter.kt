@@ -16,6 +16,7 @@
 
 package com.example.focusindicator
 
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.focusindicator.databinding.ListItemFocusIndicatorCardBinding
@@ -27,10 +28,33 @@ open class FocusIndicatorCardListAdapter : CardListAdapter() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListItemFocusIndicatorCardBinding.inflate(
-            LayoutInflater.from(parent.context),
+            LayoutInflater.from(
+                when (viewType) {
+                    1 -> ContextThemeWrapper(
+                        parent.context,
+                        R.style.ThemeOverlay_ListItemFocusIndicatorCard_DefStyleAttr
+                    )
+
+                    2 -> ContextThemeWrapper(
+                        parent.context,
+                        R.style.ThemeOverlay_ListItemFocusIndicatorCard_XMLStyle
+                    )
+
+                    // defStyleRes.
+                    else -> parent.context
+                },
+            ),
             parent,
             false,
         )
         return ViewHolder(binding.root, binding.image)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position).type) {
+            CardItem.Type.DefStyleRes -> 0
+            CardItem.Type.DefStyleAttr -> 1
+            CardItem.Type.LayoutXMLStyle -> 2
+        }
     }
 }

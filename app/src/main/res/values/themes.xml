@@ -21,4 +21,37 @@
     <style name="Theme" />
 
     <style name="Theme.AppTheme" parent="android:Theme.Material.NoActionBar" />
+
+    <style name="ThemeOverlay" />
+
+    <style name="ThemeOverlay.ListItemFocusIndicatorCard" />
+
+    <!--
+     ~ priority low
+     ~ ^
+     ~ | - Theme `clipContentCornerRadius` attribute
+     ~ | - Widget defStyleRes style
+     ~ | - Widget defStyleAttr style
+     ~ | - Layout XML `style=""` attribute's style
+     ~ | - Layout XML `clipContentCornerRadius` attribute
+     ~ v
+     ~ priority high
+     -->
+    <style name="ThemeOverlay.ListItemFocusIndicatorCard.DefStyleAttr">
+        <!--
+          ~ - ignored: defStyleRes
+          ~ - used: focusIndicatorCardStyle
+          -->
+        <item name="focusIndicatorCardStyle">@style/ListItemFocusIndicatorCard.DefStyleAttr</item>
+    </style>
+
+    <style name="ThemeOverlay.ListItemFocusIndicatorCard.XMLStyle">
+        <!--
+          ~ - ignored: defStyleRes
+          ~ - ignored: focusIndicatorCardStyle
+          ~ - used: listItemFocusIndicatorCardStyle
+          -->
+        <item name="focusIndicatorCardStyle">@style/ListItemFocusIndicatorCard.DefStyleAttr</item>
+        <item name="listItemFocusIndicatorCardStyle">@style/ListItemFocusIndicatorCard.LayoutXMLStyle</item>
+    </style>
 </resources>

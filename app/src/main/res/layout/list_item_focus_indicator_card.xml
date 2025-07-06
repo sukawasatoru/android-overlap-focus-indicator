@@ -23,6 +23,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_container"
+    style="?attr/listItemFocusIndicatorCardStyle"
     android:layout_width="196dp"
     android:layout_height="110.298dp"
     android:descendantFocusability="blocksDescendants"

@@ -24,9 +24,27 @@ import kotlinx.coroutines.yield
 suspend fun requestItems(widthPx: Int = 392): List<CardItem> = withContext(Dispatchers.IO) {
     (1..10).map { i ->
         yield()
-        CardItem(
-            id = "item-$i",
-            "https://placehold.co/${widthPx}x221.png?text=${widthPx}%20x%20221\\n$i".toUri(),
-        )
+        when (i) {
+            2 ->
+                CardItem(
+                    id = "item-$i",
+                    "https://placehold.co/${widthPx}x221.png?text=${widthPx}%20x%20221\\n$i".toUri(),
+                    type = CardItem.Type.DefStyleAttr,
+                )
+
+            3 ->
+                CardItem(
+                    id = "item-$i",
+                    "https://placehold.co/${widthPx}x221.png?text=${widthPx}%20x%20221\\n$i".toUri(),
+                    type = CardItem.Type.LayoutXMLStyle,
+                )
+
+            else ->
+                CardItem(
+                    id = "item-$i",
+                    "https://placehold.co/${widthPx}x221.png?text=${widthPx}%20x%20221\\n$i".toUri(),
+                    type = CardItem.Type.DefStyleRes,
+                )
+        }
     }
 }

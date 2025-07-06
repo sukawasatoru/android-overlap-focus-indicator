@@ -19,6 +19,9 @@
 <resources>
     <attr name="focusIndicatorCardStyle" format="reference" />
     <declare-styleable name="FocusIndicatorCard">
+        <attr name="clipContentCornerRadius" format="dimension" />
         <attr name="indicatorGap" format="dimension" />
     </declare-styleable>
+
+    <attr name="listItemFocusIndicatorCardStyle" format="reference" />
 </resources>
