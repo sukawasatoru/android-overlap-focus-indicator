@@ -16,7 +16,6 @@
 
 package com.example.focusindicator
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Outline
@@ -26,24 +25,19 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.withSave
 
-@SuppressLint("UseCompatLoadingForDrawables")
 class FocusIndicatorCard @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.focusIndicatorCardStyle,
     defStyleRes: Int = R.style.Widget_FocusIndicatorCard,
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
-    private val indicator = resources.getDrawable(R.drawable.card_indicator, context.theme)!!
-
-    private var gap: Int = 0
-    private val indicatorWidth: Float = resources.getDimension(R.dimen.card_indicator_width)
-    var indicatorGap: Float = 0f
-        set(value) {
-            field = value
-            gap = (indicatorWidth + value).toInt()
+    private val indicator =
+        ContextCompat.getDrawable(context, R.drawable.focus_indicator_drawable)!!.also {
+            overlay.add(it)
         }
 
     private val path = Path()
@@ -56,9 +50,6 @@ class FocusIndicatorCard @JvmOverloads constructor(
         }
 
     init {
-        // for onDraw for indicator.
-        setWillNotDraw(false)
-
         outlineProvider = PathOutlineProvider(path)
 
         context.withStyledAttributes(
@@ -67,14 +58,11 @@ class FocusIndicatorCard @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes,
         ) {
-            for (index in 0 until indexCount) {
-                when (getIndex(index)) {
-                    R.styleable.FocusIndicatorCard_indicatorGap -> {
-                        indicatorGap = getDimension(index, 0f)
-                    }
-
+            for (at in 0 until indexCount) {
+                val attr = getIndex(at)
+                when (attr) {
                     R.styleable.FocusIndicatorCard_clipContentCornerRadius -> {
-                        clipContentCornerRadius = getDimension(index, 0f)
+                        clipContentCornerRadius = getDimension(attr, 0f)
                     }
                 }
             }
@@ -84,14 +72,14 @@ class FocusIndicatorCard @JvmOverloads constructor(
     override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
 
-        // update indicator.
-        invalidate()
+        indicator.setVisible(gainFocus, false)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
         updatePath()
+        indicator.setBounds(0, 0, w, h)
     }
 
     override fun dispatchDraw(canvas: Canvas) {
@@ -102,13 +90,6 @@ class FocusIndicatorCard @JvmOverloads constructor(
             }
         } else {
             super.dispatchDraw(canvas)
-        }
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        if (isFocused) {
-            indicator.setBounds(-gap, -gap, width + gap, height + gap)
-            indicator.draw(canvas)
         }
     }
 

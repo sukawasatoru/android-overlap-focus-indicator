@@ -16,17 +16,8 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <attr name="focusIndicatorCardStyle" format="reference" />
-    <declare-styleable name="FocusIndicatorCard">
-        <attr name="clipContentCornerRadius" format="dimension" />
-    </declare-styleable>
-
-    <declare-styleable name="FocusIndicatorDrawable">
-        <attr name="android:drawable" />
-        <attr name="android:duration" />
-        <attr name="indicatorGap" format="dimension" />
-    </declare-styleable>
-
-    <attr name="listItemFocusIndicatorCardStyle" format="reference" />
-</resources>
+<com.example.focusindicator.FocusIndicatorDrawable xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:drawable="@drawable/card_indicator"
+    android:visible="false"
+    app:indicatorGap="?indicatorGap" />

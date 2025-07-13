@@ -20,7 +20,9 @@
 
     <style name="Theme" />
 
-    <style name="Theme.AppTheme" parent="android:Theme.Material.NoActionBar" />
+    <style name="Theme.AppTheme" parent="android:Theme.Material.NoActionBar">
+        <item name="indicatorGap">4dp</item>
+    </style>
 
     <style name="ThemeOverlay" />
 
@@ -43,6 +45,7 @@
           ~ - used: focusIndicatorCardStyle
           -->
         <item name="focusIndicatorCardStyle">@style/ListItemFocusIndicatorCard.DefStyleAttr</item>
+        <item name="indicatorGap">8dp</item>
     </style>
 
     <style name="ThemeOverlay.ListItemFocusIndicatorCard.XMLStyle">
@@ -51,6 +54,7 @@
           ~ - ignored: focusIndicatorCardStyle
           ~ - used: listItemFocusIndicatorCardStyle
           -->
+        <item name="indicatorGap">16dp</item>
         <item name="focusIndicatorCardStyle">@style/ListItemFocusIndicatorCard.DefStyleAttr</item>
         <item name="listItemFocusIndicatorCardStyle">@style/ListItemFocusIndicatorCard.LayoutXMLStyle</item>
     </style>

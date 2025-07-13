@@ -21,13 +21,10 @@
     <style name="Widget" />
 
     <style name="Widget.FocusIndicatorCard">
-        <item name="indicatorGap">2dp</item>
         <item name="clipContentCornerRadius">8dp</item>
     </style>
 
-    <style name="ListItemFocusIndicatorCard">
-        <item name="indicatorGap">2dp</item>
-    </style>
+    <style name="ListItemFocusIndicatorCard" />
 
     <style name="ListItemFocusIndicatorCard.DefStyleAttr">
         <item name="clipContentCornerRadius">16dp</item>
