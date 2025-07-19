@@ -122,9 +122,9 @@ class FocusIndicatorDrawable : DrawableWrapper {
 
         fun animate(visible: Boolean): ValueAnimator {
             return if (visible) {
-                createAnimator(isFadeIn = true, restart = restart).also { it.start() }
+                createAnimator(isFadeIn = true, restart = restart).also(ValueAnimator::start)
             } else {
-                createAnimator(isFadeIn = false, restart = restart).also { it.start() }
+                createAnimator(isFadeIn = false, restart = restart).also(ValueAnimator::start)
             }
         }
 

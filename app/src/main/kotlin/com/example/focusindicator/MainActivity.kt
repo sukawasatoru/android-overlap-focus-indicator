@@ -39,18 +39,21 @@ class MainActivity : ComponentActivity() {
         }
         lifecycleScope.launch { adapter.submitList(requestItems()) }
         binding.list.adapter = adapter
+        binding.list.addItemDecoration(ClipDecoration())
 
         val adapter2 = FocusIndicatorCardListAdapter().apply {
             onItemClick = ::onItemClick
         }
         lifecycleScope.launch { adapter2.submitList(requestItems()) }
         binding.list2.adapter = adapter2
+        binding.list2.addItemDecoration(ClipDecoration())
 
         val adapter3 = FocusIndicatorCarouselCardAdapter().apply {
             onItemClick = ::onItemClick
         }
         lifecycleScope.launch { adapter3.submitList(requestItems(1792).take(3)) }
         binding.list3.adapter = adapter3
+        binding.list3.list.addItemDecoration(ClipDecoration())
     }
 
     private fun onItemClick(item: CardItem) {
