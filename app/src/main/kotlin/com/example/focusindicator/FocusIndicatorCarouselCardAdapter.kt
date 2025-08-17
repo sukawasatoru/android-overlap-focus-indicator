@@ -16,20 +16,41 @@
 
 package com.example.focusindicator
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.focusindicator.databinding.CarouselItemBinding
 
-class FocusIndicatorCarouselCardAdapter : FocusIndicatorCardListAdapter() {
-    init {
-        tag = "FocusIndicatorCarouselCardAdapter"
-    }
+class FocusIndicatorCarouselCardAdapter :
+    ListAdapter<CardItem, FocusIndicatorCarouselCardAdapter.ViewHolder>(ItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return super.onCreateViewHolder(parent, viewType).apply {
-            itemView.apply {
-                layoutParams = layoutParams.apply {
-                    width = parent.width - parent.paddingStart
-                }
-            }
-        }
+        return ViewHolder(
+            CarouselItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false,
+            ).root,
+        )
     }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
+
+        holder.itemView.setTag(
+            R.id.view_display_description,
+            "{pos: $position, id: ${item.id}, uri: ${item.uri}}",
+        )
+
+        Glide.with(holder.itemView).load(item.uri).into(holder.view)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        Glide.with(holder.itemView).clear(holder.view)
+    }
+
+    class ViewHolder(val view: ImageView) : RecyclerView.ViewHolder(view)
 }

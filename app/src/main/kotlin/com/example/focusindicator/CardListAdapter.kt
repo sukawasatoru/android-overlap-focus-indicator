@@ -69,7 +69,7 @@ open class CardListAdapter : ListAdapter<CardItem, CardListAdapter.ViewHolder>(I
     ) : RecyclerView.ViewHolder(view)
 }
 
-private object ItemCallback : DiffUtil.ItemCallback<CardItem>() {
+object ItemCallback : DiffUtil.ItemCallback<CardItem>() {
     override fun areItemsTheSame(oldItem: CardItem, newItem: CardItem): Boolean {
         return oldItem.id == newItem.id
     }

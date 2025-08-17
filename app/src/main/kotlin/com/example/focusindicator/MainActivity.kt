@@ -48,12 +48,15 @@ class MainActivity : ComponentActivity() {
         binding.list2.adapter = adapter2
         binding.list2.addItemDecoration(ClipDecoration())
 
-        val adapter3 = FocusIndicatorCarouselCardAdapter().apply {
-            onItemClick = ::onItemClick
-        }
-        lifecycleScope.launch { adapter3.submitList(requestItems(1792).take(3)) }
+        val adapter3 = FocusIndicatorCarouselCardAdapter()
+        lifecycleScope.launch { adapter3.submitList(requestItems().take(3)) }
         binding.list3.adapter = adapter3
         binding.list3.list.addItemDecoration(ClipDecoration())
+        binding.list3.button.setOnClickListener {
+            adapter3.currentList
+                .getOrNull(binding.list3.list.selectedPosition)
+                ?.let(::onItemClick)
+        }
     }
 
     private fun onItemClick(item: CardItem) {
